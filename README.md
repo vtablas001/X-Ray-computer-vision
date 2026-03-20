@@ -11,7 +11,7 @@ This project leverages convolutional neural networks to power computer vision an
 Developed as a proof-of-concept for the **Ministry of Health (MINSAL)** and the **Teachers' Wellbeing Institute (ISBM)**, this system demonstrates how AI can empower medical professionals with tools for faster and more accurate diagnosis. It is aligned with UNDP’s 2025 AI for Sustainable Development Atlas, aiming to improve healthcare access in resource-constrained settings.
 
 ### 🔗 Live Demo
-**https://v0-pulmonary-ai-demo.vercel.app/**
+[Platform Demo](https://v0-pulmonary-ai-demo.vercel.app/)
 
 ---
 
