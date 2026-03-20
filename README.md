@@ -57,12 +57,7 @@ The core logic of this project is documented in the included Jupyter Notebook. T
 
 ---
 
-## Language & Core Tools
-
-### Primary Language
-* **Python 3.10+**: Chosen for its dominance in the data science and medical AI ecosystem.
-
-### Key Libraries & Frameworks
+## Key Libraries & Frameworks
 * **Deep Learning:** `TensorFlow`, `Keras` (Model architecture and training).
 * **Computer Vision:** `OpenCV` (`cv2`), `Pillow` (Image preprocessing and augmentation).
 * **Data Manipulation:** `NumPy`, `Pandas` (Tensor handling and dataset management).
