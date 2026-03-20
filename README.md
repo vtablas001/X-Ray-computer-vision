@@ -20,7 +20,7 @@ Developed as a proof-of-concept for the **Ministry of Health (MINSAL)** and the 
 
 ---
 
-## 🎯 Context & Objectives
+## Context & Objectives
 Respiratory diseases remain a major public health challenge in El Salvador. This initiative is designed to:
 1.  **Reduce diagnostic delays** in high-demand units.
 2.  **Alleviate the burden on radiologists** by automating the triage of normal vs. pathological scans.
