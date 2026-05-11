@@ -13,6 +13,11 @@ Developed as a proof-of-concept for the **Ministry of Health (MINSAL)** and the 
 ### Live Demo
 [Platform Demo](https://v0-pulmonary-ai-demo.vercel.app/)
 
+<img width="1294" height="1280" alt="image" src="https://github.com/user-attachments/assets/d16c3549-3fee-4d1f-a011-89ad3b6b8714" />
+
+<img width="1272" height="767" alt="image" src="https://github.com/user-attachments/assets/51bfb34a-1b05-4c71-a885-03630dab9646" />
+
+
 ---
 
 ## Medical Disclaimer
