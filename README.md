@@ -1,80 +1,110 @@
-# AI-Powered Chest X-Ray Diagnosis for El Salvador's Public Health System
+# AI-Assisted Chest X-Ray Pneumonia Detection
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Framework](https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
-[![Status](https://img.shields.io/badge/Status-Prototype%20Demo-green)]()
+[![API](https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Status](https://img.shields.io/badge/Status-Prototype-green)]()
 
-
-## Project Overview
-This project leverages convolutional neural networks to power computer vision and artificial intelligence to support early, automated detection of respiratory diseases through chest X-Ray analysis. 
-
-Developed as a proof-of-concept for the **Ministry of Health (MINSAL)** and the **Teachers' Wellbeing Institute (ISBM)**, this system demonstrates how AI can empower medical professionals with tools for faster and more accurate diagnosis. It is aligned with UNDP’s 2025 AI for Sustainable Development Atlas, aiming to improve healthcare access in resource-constrained settings.
-
-### Live Demo
-[Platform Demo](https://v0-pulmonary-ai-demo.vercel.app/)
-
-<img width="1294" height="1280" alt="image" src="https://github.com/user-attachments/assets/d16c3549-3fee-4d1f-a011-89ad3b6b8714" />
-
-<img width="1272" height="767" alt="image" src="https://github.com/user-attachments/assets/51bfb34a-1b05-4c71-a885-03630dab9646" />
-
-
----
+Prototype computer vision project for chest X-ray pneumonia screening. The repository contains a trained Keras model, a FastAPI inference service, sample images, and the original exploratory notebook.
 
 ## Medical Disclaimer
-> **This tool is intended for research and development purposes only.** It is designed to assist, not replace, medical professionals. It is not a certified medical device and should not be used as the sole basis for diagnosis or treatment.
 
----
+This project is intended for research and development only. It is not a certified medical device and must not be used as the sole basis for diagnosis, triage, or treatment decisions.
 
-## Context & Objectives
-Respiratory diseases remain a major public health challenge in El Salvador. This initiative is designed to:
-1.  **Reduce diagnostic delays** in high-demand units.
-2.  **Alleviate the burden on radiologists** by automating the triage of normal vs. pathological scans.
-3.  **Improve healthcare access** in rural or underserved areas where specialists are scarce.
+## Project Structure
 
-## Technical Approach & Data Scale
+```text
+.
+├── artifacts/
+│   └── models/                  # Trained model artifacts used by the API
+├── data/
+│   └── sample_images/            # Small sample set for demos and manual checks
+├── docs/                         # Supporting documentation and dataset references
+├── notebooks/                    # Exploratory analysis and training notebooks
+├── src/
+│   └── xray_cv/                  # Importable application package
+├── tests/                        # Unit and API tests
+├── api_dep.py                    # Backward-compatible FastAPI entrypoint
+├── pyproject.toml                # Package metadata and optional dependencies
+└── requirements.txt              # Legacy dependency file
+```
 
-### The Dataset: 10,000+ Images
-To ensure clinical relevance and statistical significance, the model was trained and validated on a robust dataset of **over 10,000 chest X-ray images**. 
-* **Scale:** 10,000+ processed images.
-* **Diversity:** Includes a balanced mix of "Normal," "Viral Pneumonia," and "COVID-19" cases to prevent model bias.
-* **Preprocessing:** All images underwent standardization (resizing, CLAHE contrast enhancement) to simulate real-world input variability.
+## Quickstart
 
-### The Model: VGG16 & Transfer Learning
-* **Architecture:** We employ a pre-trained **VGG16 Convolutional Neural Network (CNN)**.
-* **Transfer Learning:** Weights from ImageNet were used as a starting point, followed by fine-tuning specific layers to recognize radiographic features (opacities, consolidations) rather than generic objects.
-* **Data Augmentation:** Techniques such as rotation, zoom, and brightness shifts were applied during training to improve the model's ability to generalize to new, unseen X-rays.
+Create and activate a virtual environment:
 
-### Target Conditions
-The system classifies images into three categories:
-* **Normal** (Healthy)
-* **Viral Pneumonia**
-* **COVID-19**
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
 
----
+Install the project with API and test dependencies:
 
-## Interactive Analysis (Jupyter Notebook)
-The core logic of this project is documented in the included Jupyter Notebook. This file serves as the technical proof-of-concept, providing a transparent walkthrough of:
-* **Exploratory Data Analysis (EDA):** Visualization of the 10,000+ image dataset distribution.
-* **Training Pipeline:** Real-time training logs showing accuracy/loss convergence.
-* **Performance Metrics:** Confusion matrices and classification reports on the test set.
+```bash
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+```
 
-[**📄 View the Source Notebook**](Torax_X_Ray_pneumonia_CNN.ipynb)
+For notebook work, include the analysis dependencies:
 
----
+```bash
+python -m pip install -e ".[dev,analysis]"
+```
 
-## Key Libraries & Frameworks
-* **Deep Learning:** `TensorFlow`, `Keras` (Model architecture and training).
-* **Computer Vision:** `OpenCV` (`cv2`), `Pillow` (Image preprocessing and augmentation).
-* **Data Manipulation:** `NumPy`, `Pandas` (Tensor handling and dataset management).
-* **Visualization:** `Matplotlib`, `Seaborn` (Heatmaps, confusion matrices, and training curves).
-* **Deployment:** `FastAPI` (Backend inference), `Vercel` (Frontend hosting).
+## Configuration
 
----
+The API reads configuration from environment variables:
 
-## Usage
+```bash
+XRAY_MODEL_PATH=artifacts/models/cnn_pneumonia_model.keras
+XRAY_PREDICTION_THRESHOLD=0.5
+```
 
-To run the analysis locally using the provided notebook:
+Copy `.env.example` if you want to keep local overrides. The default model path already points to the committed model artifact.
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/vtablas001/xray-computer-vision.git
+## Run The API
+
+```bash
+uvicorn xray_cv.api:app --app-dir src --reload
+```
+
+Useful endpoints:
+
+- `GET /`: basic API message.
+- `GET /health`: service status and model loading state.
+- `POST /predict/`: upload a chest X-ray image using multipart form field `file`.
+
+Example request:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/predict/" \
+  -F "file=@data/sample_images/PNEUMONIA/person1946_bacteria_4874.jpeg"
+```
+
+## Tests
+
+```bash
+pytest
+```
+
+The API tests use a stub classifier so they can validate request and response behavior without loading TensorFlow or the Keras model.
+
+## Notebook
+
+The original exploratory and training notebook lives at:
+
+[notebooks/Torax_X_Ray_pneumonia_CNN.ipynb](notebooks/Torax_X_Ray_pneumonia_CNN.ipynb)
+
+## Dataset Reference
+
+The external dataset archive reference is stored in:
+
+[docs/dataset_source.txt](docs/dataset_source.txt)
+
+## Live Demo
+
+[Platform Demo](https://v0-pulmonary-ai-demo.vercel.app/)
+
+<img width="1294" height="1280" alt="Application screenshot" src="https://github.com/user-attachments/assets/d16c3549-3fee-4d1f-a011-89ad3b6b8714" />
+
+<img width="1272" height="767" alt="Application results screenshot" src="https://github.com/user-attachments/assets/51bfb34a-1b05-4c71-a885-03630dab9646" />

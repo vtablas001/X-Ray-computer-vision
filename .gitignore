@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local outputs
+outputs/
+reports/
+logs/
+
+# Model checkpoints and large generated artifacts
+artifacts/checkpoints/
+*.h5
+*.weights.h5
